@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listen</title>
+
+    <link rel="stylesheet" href="/public/styles/style.css">
+</head>
+
+<body class='p-4 bg-gray-800 h-full'>
+
+    <%- include('nav') %>
+
+    <div class='flex flex-col gap-4 mx-auto mt-16 max-w-screen-md'>
+        <audio id='player' src='/public/songs/<%= videoId %>.mp3' autoplay></audio>
+
+        <img style='width: 250px; aspect-ratio: 1 / 1;' class='mx-auto'
+            src="https://lh3.googleusercontent.com/<%= thumbId %>=w300-h300-l90-rj" alt="">
+
+        <div class='flex flex-row gap-4 items-center mx-auto'>
+            <p><span id="songCurrentTime">0</span>/<span id="songLength"><%= Math.floor(length / 60) %>:<%= length % 60 %></span></p>
+            <progress id="timeProgress" value="0" max="<%= length %>"></progress>    
+        </div>
+
+        <div class='flex flex-row gap-4 mx-auto'>
+            <button id="back5" class='bg-green-400 rounded-full h-12 w-12 flex items-center justify-center'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                    <path
+                        d="M 15 3 C 11.946149 3 9.1595062 4.1553732 7.0390625 6.0390625 L 5 4 L 5 10 L 11 10 L 8.4550781 7.4550781 C 10.209519 5.9310235 12.488026 5 15 5 C 20.534534 5 25 9.4654664 25 15 C 25 20.534534 20.534534 25 15 25 C 9.4654664 25 5 20.534534 5 15 A 1.0001 1.0001 0 1 0 3 15 C 3 21.615466 8.3845336 27 15 27 C 21.615466 27 27 21.615466 27 15 C 27 8.3845336 21.615466 3 15 3 z M 12.763672 11.537109 L 12.431641 15.664062 L 14.009766 15.664062 C 14.233766 15.308063 14.584031 15.082031 15.082031 15.082031 C 15.736031 15.082031 16.205078 15.552859 16.205078 16.255859 C 16.205078 16.944859 15.741891 17.392578 15.087891 17.392578 C 14.496891 17.392578 14.028313 17.051203 13.945312 16.533203 L 12.318359 16.533203 C 12.343359 17.812203 13.438219 18.775437 15.074219 18.773438 C 16.773219 18.773437 17.896484 17.733937 17.896484 16.210938 C 17.896484 14.838937 16.939563 13.847656 15.601562 13.847656 C 14.878563 13.847656 14.380422 14.131312 14.107422 14.570312 L 14.013672 14.570312 L 14.146484 12.933594 L 17.451172 12.933594 L 17.451172 11.537109 L 12.763672 11.537109 z">
+                    </path>
+                </svg>
+            </button>
+            <button id="play" class='bg-green-400 rounded-full h-12 w-12 flex items-center justify-center'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+                </svg>
+            </button>
+            <button id="fwd5" class='bg-green-400 rounded-full h-12 w-12 flex items-center justify-center'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+                    <path
+                        d="M 15 3 C 8.3845336 3 3 8.3845336 3 15 C 3 21.615466 8.3845336 27 15 27 C 21.615466 27 27 21.615466 27 15 A 1.0001 1.0001 0 1 0 25 15 C 25 20.534534 20.534534 25 15 25 C 9.4654664 25 5 20.534534 5 15 C 5 9.4654664 9.4654664 5 15 5 C 17.511974 5 19.790481 5.9310235 21.544922 7.4550781 L 19 10 L 25 10 L 25 4 L 22.960938 6.0390625 C 20.840494 4.1553732 18.053851 3 15 3 z M 12.763672 11.537109 L 12.431641 15.664062 L 14.009766 15.664062 C 14.233766 15.308063 14.584031 15.082031 15.082031 15.082031 C 15.736031 15.082031 16.205078 15.552859 16.205078 16.255859 C 16.205078 16.944859 15.741891 17.392578 15.087891 17.392578 C 14.496891 17.392578 14.028313 17.051203 13.945312 16.533203 L 12.318359 16.533203 C 12.343359 17.812203 13.438219 18.775437 15.074219 18.773438 C 16.773219 18.773437 17.896484 17.733937 17.896484 16.210938 C 17.896484 14.838937 16.939563 13.847656 15.601562 13.847656 C 14.878563 13.847656 14.380422 14.131312 14.107422 14.570312 L 14.013672 14.570312 L 14.146484 12.933594 L 17.451172 12.933594 L 17.451172 11.537109 L 12.763672 11.537109 z">
+                    </path>
+                </svg>
+            </button>
+
+        </div>
+    </div>
+
+
+    <script>
+        document.querySelector('#searchForm').addEventListener('submit', e => {
+            e.preventDefault();
+            window.location = `${window.location.origin}/search?q=${e.currentTarget.searchBox.value}&c=${e.currentTarget.category.value}`
+        })
+
+        var player = document.querySelector('#player');
+
+
+        setInterval(() => {
+            let playerTime = player.currentTime;
+            document.querySelector('#timeProgress').value = Math.round(player.currentTime);
+            document.querySelector('#songCurrentTime').innerText = `${Math.round(playerTime / 60)}:${Math.round(playerTime % 60)}`;
+        }, 100)
+
+        document.querySelector('#play').addEventListener('click', e => {
+            if (player.paused) {
+                player.play()
+            }
+            else {
+                player.pause()
+            }
+        })
+
+        document.querySelector('#fwd5').addEventListener('click', e => {
+            player.currentTime += 5
+        })
+
+        document.querySelector('#back5').addEventListener('click', e => {
+            player.currentTime -= 5
+        })
+    </script>
+</body>
+
+</html>

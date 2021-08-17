@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search <%= query %></title>
+
+    <link rel="stylesheet" href="public/styles/style.css">
+    <link rel="stylesheet" href="public/styles/styles.css">
+</head>
+
+<body class='p-4 bg-gray-800'>
+
+    <%- include('nav') %>
+
+        <div class='flex flex-col gap-4 mx-auto mt-16 max-w-screen-md'>
+            <% JSON.parse(searchData).content.forEach(function(searchItem) { %>
+                <% if (searchItem.type=='song' ) { %>
+                    <div class='flex flex-row w-full gap-4 p-2 rounded bg-gray-700'>
+                        <img src="<%= searchItem.thumbnails[0].url %>" alt="song logo" loading="lazy">
+                        <div class='text-white w-1/2'>
+                            <h4 class="overflow-hidden overflow-ellipsis whitespace-nowrap h-6">
+                                <%= searchItem.name %>
+                            </h4>
+                            <p><a href="https://www.youtube.com/channel/<%= searchItem.artist.browseId %>">
+                                    <%= searchItem.artist.name %>
+                                </a></p>
+                        </div>
+                        <div id='button-commands' class='ml-auto my-auto'>
+                            <button
+                                class='bg-green-400 rounded-full h-12 w-12 flex items-center justify-center saveToServerBtn'
+                                vidid='<%= searchItem.videoId %>'
+                                thumbid='<%= searchItem.thumbnails[0].url.split("/")[3].split("=")[0] %>'
+                                style='aspect-ratio: 1 / 1;'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                    class="bi bi-hdd-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-1zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zM.91 7.204A2.993 2.993 0 0 1 2 7h12c.384 0 .752.072 1.09.204l-1.867-3.422A1.5 1.5 0 0 0 11.906 3H4.094a1.5 1.5 0 0 0-1.317.782L.91 7.204z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <% } else if(searchItem.type=='artist' ) { %>
+                        <a class='flex flex-row w-full gap-4 p-2 rounded bg-gray-700'>
+                            <img src="<%= searchItem.thumbnails[0].url %>" alt="" loading="lazy"
+                                style='aspect-ratio: 1 / 1;'>
+                            <div class='text-white'>
+                                <h4>
+                                    <%= searchItem.name %>
+                                </h4>
+                            </div>
+                        </a>
+                        <% } %>
+                            <% }) %>
+        </div>
+
+
+        <script>
+
+            document.querySelector('#searchForm').addEventListener('submit', e => {
+                e.preventDefault();
+                window.location = `search?q=${e.currentTarget.searchBox.value}&c=${e.currentTarget.category.value}`
+            })
+
+            var stsBtns = document.querySelectorAll('.saveToServerBtn')
+
+            stsBtns.forEach(e => {
+                e.addEventListener('click', f => {
+                    var url = `${window.location.origin}/download?videoId=${e.getAttribute('vidid')}&thumbid=${e.getAttribute('thumbid')}`;
+                    console.log(url)
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", url);
+
+                    xhr.send()
+                })
+            })
+
+        </script>
+
+</body>
+
+</html>

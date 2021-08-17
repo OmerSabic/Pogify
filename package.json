@@ -1,0 +1,26 @@
+{
+  "name": "pogify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js",
+    "build": "NODE_ENV=production tailwind build -i ./src/style.css -o ./public/styles/style.css",
+    "init": "node initdb.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "fastify": "^3.20.1",
+    "fastify-static": "^4.2.2",
+    "point-of-view": "^4.15.1",
+    "sqlite3": "^5.0.2",
+    "tailwindcss": "^2.2.7",
+    "updated-youtube-info": "^1.4.7",
+    "youtube-music-api": "^1.0.6",
+    "ytdl-core": "^4.9.1"
+  }
+}
