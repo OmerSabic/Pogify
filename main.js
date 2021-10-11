@@ -11,7 +11,6 @@ var db = new sqlite3.Database('pogifyDB.db')
 // Library for getting some basic info on a youtube video
 // from the video ID
 const youtubeInfo = require('updated-youtube-info');
-const { rejects } = require('assert');
 
 const api = new YoutubeMusicApi()
 
